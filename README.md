@@ -1,5 +1,5 @@
 # Just Add Power IR Blaster Web Interface
-
+![IR Blaster Web Interface](remote.png)
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [System Overview](#system-overview)
