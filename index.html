@@ -3,101 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Castle TV Transmitter Remote Control</title>
+    <title>Castle Remote Control V4</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+        /* Custom styles for specific colors */
+        .bg-darker-blue {
+            background-color: #1e40af;
+        }
+        .hover\:bg-darker-blue:hover {
+            background-color: #1e3a8a;
+        }
+    </style>
 </head>
-<body class="min-h-screen flex items-center justify-center px-4 py-8 bg-gray-900">
-    <div class="w-full max-w-md space-y-8 bg-gray-800 p-4 sm:p-8 rounded-3xl shadow-2xl">
-        <h1 id="castle-tv-transmitter-remote-control" class="text-2xl sm:text-3xl font-bold text-center text-white mb-6 sm:mb-8">Castle Remote Control</h1>
+<body class="bg-gray-900 text-white">
+    <div class="w-full max-w-md mx-auto space-y-8 bg-gray-800 p-4 sm:p-8 rounded-3xl shadow-2xl mt-8">
+        <h1 id="castle-tv-transmitter-remote-control" class="text-2xl sm:text-3xl font-bold text-center text-white mb-6 sm:mb-8">Castle Remote Control V4</h1>
 
-        <div>
-            
-            <select id="transmitter-select" class="w-full bg-gray-700 text-white rounded-md py-2 px-3 mb-4">
+        <!-- Transmitter selection -->
+        <div id="transmitter-select" class="mb-4">
+            <label for="transmitter" class="block text-sm font-medium text-gray-400 mb-2">Select Transmitter:</label>
+            <select id="transmitter" class="w-full bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <option value="">Loading transmitters...</option>
             </select>
         </div>
 
+        <!-- Remote control buttons -->
         <div class="bg-gray-700 p-4 sm:p-6 rounded-3xl">
+            <!-- Power and Guide buttons -->
             <div class="flex justify-center space-x-4 mb-4 sm:mb-6">
                 <button class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('power')">Power</button>
-                <button class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('guide')">Guide</button>
+                <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('guide')">Guide</button>
             </div>
 
+            <!-- Navigation buttons -->
             <div class="grid grid-cols-3 gap-2 sm:gap-4 mb-4 sm:mb-6">
                 <div class="col-span-3 flex justify-center mb-2 sm:mb-4">
-                    <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('up')">â–²</button>
+                    <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('up')">▲</button>
                 </div>
-                <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('left')">â—€</button>
-                <button class="bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('select')">OK</button>
-                <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('right')">â–¶</button>
+                <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('left')">◀</button>
+                <button class="bg-darker-blue hover:bg-darker-blue text-white font-bold py-2 px-4 rounded" onclick="sendCommand('select')">OK</button>
+                <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('right')">▶</button>
                 <div class="col-span-3 flex justify-center mt-2 sm:mt-4">
-                    <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('down')">â–¼</button>
+                    <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('down')">▼</button>
                 </div>
             </div>
 
+            <!-- Channel buttons -->
             <div class="flex justify-center space-x-4 mb-4 sm:mb-6">
-                <button class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('channel_up')">CH +</button>
-                <button class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('channel_down')">CH -</button>
+                <button class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('channel_up')">CH +</button>
+                <button class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('channel_down')">CH -</button>
             </div>
 
+            <!-- Number pad with Last and Exit buttons -->
             <div class="grid grid-cols-3 gap-2 sm:gap-4">
-                <button class="bg-purple-800 hover:bg-purple-900 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('1')">1</button>
-                <button class="bg-purple-800 hover:bg-purple-900 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('2')">2</button>
-                <button class="bg-purple-800 hover:bg-purple-900 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('3')">3</button>
-                <button class="bg-purple-800 hover:bg-purple-900 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('4')">4</button>
-                <button class="bg-purple-800 hover:bg-purple-900 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('5')">5</button>
-                <button class="bg-purple-800 hover:bg-purple-900 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('6')">6</button>
-                <button class="bg-purple-800 hover:bg-purple-900 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('7')">7</button>
-                <button class="bg-purple-800 hover:bg-purple-900 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('8')">8</button>
-                <button class="bg-purple-800 hover:bg-purple-900 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('9')">9</button>
-                <button class="bg-purple-800 hover:bg-purple-900 text-white font-bold py-2 px-4 rounded col-start-2" onclick="sendCommand('0')">0</button>
+                <button class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('1')">1</button>
+                <button class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('2')">2</button>
+                <button class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('3')">3</button>
+                <button class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('4')">4</button>
+                <button class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('5')">5</button>
+                <button class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('6')">6</button>
+                <button class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('7')">7</button>
+                <button class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('8')">8</button>
+                <button class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('9')">9</button>
+                <button class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('last')">Last</button>
+                <button class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('0')">0</button>
+                <button class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('exit')">Exit</button>
             </div>
         </div>
 
+        <!-- Error message display -->
         <div id="error-message" class="mt-4 bg-red-900 border border-red-700 text-red-100 px-4 py-3 rounded-lg relative hidden" role="alert">
-            <strong>Error!</strong> <span id="error-text" class="block sm:inline"></span>
+            <strong class="font-bold">Error!</strong>
+            <span id="error-text" class="block sm:inline"></span>
         </div>
     </div>
 
     <script>
-        $(document).ready(function() {
-            // Fetch transmitters from the text file
-            $.get('transmitters.txt', function(data) {
-                const transmitters = data.split('\n').filter(line => line.trim() !== '');
-                const select = $('#transmitter-select');
-                select.empty();
-                select.append($('<option>').val('').text('Select a transmitter'));
-                transmitters.forEach(function(transmitter) {
-                    const [name, ip] = transmitter.split(',');
-                    select.append($('<option>').val(ip.trim()).text(name.trim()));
+        // Function to load transmitters from the text file
+        async function loadTransmitters() {
+            try {
+                const response = await fetch('transmitters.txt');
+                const text = await response.text();
+                const transmitters = text.split('\n').filter(line => line.trim() !== '').map(line => {
+                    const [name, url] = line.split(',').map(item => item.trim());
+                    return { name, url };
                 });
-            });
-        });
+                
+                const select = document.getElementById('transmitter');
+                select.innerHTML = '';
+                transmitters.forEach(transmitter => {
+                    const option = document.createElement('option');
+                    option.value = transmitter.url;
+                    option.textContent = transmitter.name;
+                    select.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error loading transmitters:', error);
+                showError('Failed to load transmitters. Please try refreshing the page.');
+            }
+        }
 
-        function sendCommand(action) {
-            const deviceUrl = $('#transmitter-select').val();
-            if (!deviceUrl) {
-                showError('Please select a transmitter');
+        // Function to send a command to the selected transmitter
+        async function sendCommand(action) {
+            const transmitterUrl = document.getElementById('transmitter').value;
+            if (!transmitterUrl) {
+                showError('Please select a transmitter.');
                 return;
             }
 
-            $.post('api.php', { device_url: deviceUrl, action: action }, function(response) {
-                if (response.error) {
-                    showError(response.error);
+            try {
+                const response = await fetch('api.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `device_url=${encodeURIComponent(transmitterUrl)}&action=${encodeURIComponent(action)}`,
+                });
+
+                const result = await response.json();
+                if (result.error) {
+                    showError(result.error);
+                } else {
+                    hideError();
                 }
-            }).fail(function() {
-                showError('Failed to send command');
-            });
+            } catch (error) {
+                console.error('Error sending command:', error);
+                showError('Failed to send command. Please try again.');
+            }
         }
 
+        // Function to show error message
         function showError(message) {
-            $('#error-text').text(message);
-            $('#error-message').removeClass('hidden');
-            setTimeout(function() {
-                $('#error-message').addClass('hidden');
-            }, 5000);
+            const errorElement = document.getElementById('error-message');
+            const errorTextElement = document.getElementById('error-text');
+            errorTextElement.textContent = message;
+            errorElement.classList.remove('hidden');
         }
+
+        // Function to hide error message
+        function hideError() {
+            const errorElement = document.getElementById('error-message');
+            errorElement.classList.add('hidden');
+        }
+
+        // Load transmitters when the page loads
+        window.addEventListener('load', loadTransmitters);
     </script>
 </body>
 </html>
