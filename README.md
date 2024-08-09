@@ -16,7 +16,7 @@
 
 This project provides a web-based interface for controlling multiple Just Add Power 3G transmitters with V2 Flux Capacitor IR dongles. It's designed to allow remote control of cable boxes, TVs, or other IR-controlled devices through a network connection.
 
-The interface mimics a standard remote control, with customizable IR codes to suit various devices. By default, it's configured for Samsung/Scientific Atlanta cable boxes, but can be easily adapted for other devices.
+The interface mimics a standard remote control, with customizable IR codes to suit various devices. By default, it's configured for Samsung/Scientific Atlanta cable boxes, but can be easily adapted for other devices by substituting the IR codes in the payloads.txt file for the correct IR codes for your device.
 
 ## System Overview
 
