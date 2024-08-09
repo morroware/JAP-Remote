@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Castle TV Transmitter Remote Control</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body class="min-h-screen flex items-center justify-center px-4 py-8 bg-gray-900">
+    <div class="w-full max-w-md space-y-8 bg-gray-800 p-4 sm:p-8 rounded-3xl shadow-2xl">
+        <h1 id="castle-tv-transmitter-remote-control" class="text-2xl sm:text-3xl font-bold text-center text-white mb-6 sm:mb-8">Castle Remote Control</h1>
+
+        <div>
+            
+            <select id="transmitter-select" class="w-full bg-gray-700 text-white rounded-md py-2 px-3 mb-4">
+                <option value="">Loading transmitters...</option>
+            </select>
+        </div>
+
+        <div class="bg-gray-700 p-4 sm:p-6 rounded-3xl">
+            <div class="flex justify-center space-x-4 mb-4 sm:mb-6">
+                <button class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('power')">Power</button>
+                <button class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('guide')">Guide</button>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2 sm:gap-4 mb-4 sm:mb-6">
+                <div class="col-span-3 flex justify-center mb-2 sm:mb-4">
+                    <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('up')">â–²</button>
+                </div>
+                <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('left')">â—€</button>
+                <button class="bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('select')">OK</button>
+                <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('right')">â–¶</button>
+                <div class="col-span-3 flex justify-center mt-2 sm:mt-4">
+                    <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('down')">â–¼</button>
+                </div>
+            </div>
+
+            <div class="flex justify-center space-x-4 mb-4 sm:mb-6">
+                <button class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('channel_up')">CH +</button>
+                <button class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('channel_down')">CH -</button>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2 sm:gap-4">
+                <button class="bg-purple-800 hover:bg-purple-900 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('1')">1</button>
+                <button class="bg-purple-800 hover:bg-purple-900 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('2')">2</button>
+                <button class="bg-purple-800 hover:bg-purple-900 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('3')">3</button>
+                <button class="bg-purple-800 hover:bg-purple-900 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('4')">4</button>
+                <button class="bg-purple-800 hover:bg-purple-900 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('5')">5</button>
+                <button class="bg-purple-800 hover:bg-purple-900 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('6')">6</button>
+                <button class="bg-purple-800 hover:bg-purple-900 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('7')">7</button>
+                <button class="bg-purple-800 hover:bg-purple-900 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('8')">8</button>
+                <button class="bg-purple-800 hover:bg-purple-900 text-white font-bold py-2 px-4 rounded" onclick="sendCommand('9')">9</button>
+                <button class="bg-purple-800 hover:bg-purple-900 text-white font-bold py-2 px-4 rounded col-start-2" onclick="sendCommand('0')">0</button>
+            </div>
+        </div>
+
+        <div id="error-message" class="mt-4 bg-red-900 border border-red-700 text-red-100 px-4 py-3 rounded-lg relative hidden" role="alert">
+            <strong>Error!</strong> <span id="error-text" class="block sm:inline"></span>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            // Fetch transmitters from the text file
+            $.get('transmitters.txt', function(data) {
+                const transmitters = data.split('\n').filter(line => line.trim() !== '');
+                const select = $('#transmitter-select');
+                select.empty();
+                select.append($('<option>').val('').text('Select a transmitter'));
+                transmitters.forEach(function(transmitter) {
+                    const [name, ip] = transmitter.split(',');
+                    select.append($('<option>').val(ip.trim()).text(name.trim()));
+                });
+            });
+        });
+
+        function sendCommand(action) {
+            const deviceUrl = $('#transmitter-select').val();
+            if (!deviceUrl) {
+                showError('Please select a transmitter');
+                return;
+            }
+
+            $.post('api.php', { device_url: deviceUrl, action: action }, function(response) {
+                if (response.error) {
+                    showError(response.error);
+                }
+            }).fail(function() {
+                showError('Failed to send command');
+            });
+        }
+
+        function showError(message) {
+            $('#error-text').text(message);
+            $('#error-message').removeClass('hidden');
+            setTimeout(function() {
+                $('#error-message').addClass('hidden');
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
