@@ -68,7 +68,7 @@ Den,http://192.168.1.102
 
 ### IR Codes
 
-The `payloads.txt` file contains the IR codes for each button. Each line should have the format:
+The `payloads.txt` file contains the IR codes for each button, PRONTO or GC codes will work. Each line should have the format:
 
 ```
 button_name=IR_code
